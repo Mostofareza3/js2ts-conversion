@@ -1,0 +1,192 @@
+[
+  {
+    "id": 1,
+    "subId": 2,
+    "name": "CustomInvoiceValidation",
+    "contentName": "Validira ulazni XML pomoću custom validatora",
+    "phase": "1",
+    "previous": [],
+    "data": { "analytics": [{ "label": "Succeeded", "color": "Green", "value": "OK", "isValid": true }] },
+    "final": false
+  },
+  {
+    "id": 2,
+    "subId": 1,
+    "name": "BasicDocumentValidation",
+    "contentName": "Validira ulazni XML pomoću UblDocumentValidator",
+    "phase": "2",
+    "previous": [],
+    "data": { "analytics": [{ "label": "Succeeded", "color": "Green", "value": "OK", "isValid": true }] },
+    "final": false
+  },
+  {
+    "id": 3,
+    "subId": 0,
+    "name": "SaveIncomeInvoiceValidation",
+    "contentName": "Spremanje (Invoice) dolaznog računa",
+    "phase": "3",
+    "previous": [{ "stepId": 1 }, { "stepId": 2 }],
+    "data": { "analytics": [{ "label": "Ulazni račun spremljen", "color": "Green", "value": "OK", "isValid": true }] },
+    "final": false
+  },
+  {
+    "id": 4,
+    "subId": 0,
+    "name": "Step1",
+    "contentName": "Step 1 priprema za izvršavanje sljedećih podskupove",
+    "phase": "4",
+    "previous": [{ "stepId": 3 }],
+    "data": {
+      "analytics": [
+        { "label": "InvoiceGLNSWhiteListValidation", "color": "Green", "value": "OK", "isValid": true },
+        { "label": "InvoiceLatencyDaysValidation", "color": "Green", "value": "OK", "isValid": true },
+        { "label": "ProcessBetweenInvoiceValidation", "color": "Green", "value": "post proces", "isValid": true }
+      ]
+    },
+    "final": false
+  },
+  {
+    "id": 5,
+    "subId": 2,
+    "name": "InvoiceGLNSWhiteListValidation",
+    "contentName": "Provjera da li se DeliveryGlnId nalazi u GLNSWhiteList",
+    "phase": "5",
+    "previous": [{ "stepId": 4 }],
+    "data": { "analytics": [{ "label": "Succeeded", "color": "Green", "value": "OK", "isValid": true }] },
+    "final": false
+  },
+  {
+    "id": 6,
+    "subId": 1,
+    "name": "InvoiceLatencyDaysValidation",
+    "contentName": "Provjerava da li se zadnji datum nešto. Pitati Ivana za detalje.",
+    "phase": "6",
+    "previous": [{ "stepId": 4 }],
+    "data": {
+      "analytics": [
+        { "label": "Succeeded", "color": "Green", "value": "OK", "isValid": true },
+        { "label": "što s checkProcessingDate", "color": "Blue", "value": "UPOZORENJE" },
+        { "label": "što s HandleDelayedInvoice", "color": "Blue", "value": "UPOZORENJE" }
+      ]
+    },
+    "final": false
+  },
+  {
+    "id": 7,
+    "subId": 0,
+    "name": "ProcessBetweenInvoiceValidation",
+    "contentName": "Spremanje InsertInvoiceLog i UpdateInvoiceLogStatus jel potreno?",
+    "phase": "7",
+    "previous": [{ "stepId": 5 }, { "stepId": 6 }],
+    "data": { "analytics": [{ "label": "Succeeded", "color": "Green", "value": "OK", "isValid": true }] },
+    "final": false
+  },
+  {
+    "id": 8,
+    "subId": 0,
+    "name": "Step2",
+    "contentName": "Step 2 priprema za izvršavanje sljedećih podskupove",
+    "phase": "8",
+    "previous": [{ "stepId": 7 }],
+    "data": {
+      "analytics": [
+        { "label": "DeliveryGlnConverterValidation", "color": "Green", "value": "OK", "isValid": true },
+        { "label": "InvoiceDataDtoValidation", "color": "Green", "value": "OK", "isValid": true },
+        { "label": "CustomerContractValidation", "color": "Green", "value": "OK", "isValid": true },
+        { "label": "PrepareCreateInvoiceHeaderValidation", "color": "Green", "value": "post proces", "isValid": true }
+      ]
+    },
+    "final": false
+  },
+  {
+    "id": 9,
+    "subId": 3,
+    "name": "DeliveryGlnConverterValidation",
+    "contentName": "Delivery Gln Converter validacija",
+    "phase": "9",
+    "previous": [{ "stepId": 8 }],
+    "data": { "analytics": [{ "label": "Succeeded", "color": "Green", "value": "OK", "isValid": true }] },
+    "final": false
+  },
+  {
+    "id": 10,
+    "subId": 2,
+    "name": "InvoiceDataDtoValidation",
+    "contentName": "Invoice currency validacija i parivanje s GOLD bazom (parpostes)",
+    "phase": "10",
+    "previous": [{ "stepId": 8 }],
+    "data": {
+      "analytics": [
+        { "label": "Invoice currency", "color": "Green", "value": "EUR", "isValid": true },
+        { "label": "Supplier", "color": "Green", "value": "Postoji u bazi", "isValid": true },
+        { "label": "Customer", "color": "Green", "value": "Customer exists in the database.", "isValid": true },
+        { "label": "Delivery", "color": "Green", "value": "Delivery exists in the database.", "isValid": true }
+      ]
+    },
+    "final": false
+  },
+  {
+    "id": 11,
+    "subId": 1,
+    "name": "CustomerContractValidation",
+    "contentName": "Delivery Gln Converter validacija",
+    "phase": "11",
+    "previous": [{ "stepId": 8 }],
+    "data": {
+      "analytics": [
+        {
+          "label": "GetCustomerContract",
+          "color": "Blue",
+          "value": "Customer contract <10133/7662/V0953123024670/V0959823025199/26.7.2023. 0:00:00/1> not defined!"
+        },
+        {
+          "label": "GetCustomerContract",
+          "color": "Blue",
+          "value": "Customer contract <10133/7662/V0953123024670/V0959823025199/26.7.2023. 0:00:00/2> not defined!"
+        },
+        {
+          "label": "GetCustomerContract",
+          "color": "Blue",
+          "value": "Customer contract <10133/7662/V0953123024670/V0959823025199/26.7.2023. 0:00:00/0> not defined!"
+        },
+        { "label": "GetCustomerContract", "color": "Green", "value": "Not found", "isValid": true },
+        { "label": "LooseGetCustomerContract", "color": "Blue", "value": "Loose fetch contract - no results <10133/7662/272,8/26.7.2023. 0:00:00>" }
+      ]
+    },
+    "final": false
+  },
+  {
+    "id": 12,
+    "subId": 0,
+    "name": "PrepareCreateInvoiceHeaderValidation",
+    "contentName": "Invoice Header validacija",
+    "phase": "12",
+    "previous": [{ "stepId": 9 }, { "stepId": 10 }, { "stepId": 11 }],
+    "data": { "analytics": [{ "label": "CreateInvoiceHeaderValidation", "color": "Green", "value": "Succeeded", "isValid": true }] },
+    "final": false
+  },
+  {
+    "id": 13,
+    "subId": 0,
+    "name": "Step3",
+    "contentName": "Step 3 priprema za izvršavanje sljedećih podskupove",
+    "phase": "13",
+    "previous": [{ "stepId": 12 }],
+    "data": { "analytics": [{ "label": "DeliveryGlnConverterValidation", "color": "Green", "value": "OK", "isValid": true }] },
+    "final": false
+  },
+  {
+    "id": 14,
+    "subId": 3,
+    "name": "PrepareCreateInvoicedDocuments",
+    "contentName": "Delivery Gln Converter validacija",
+    "phase": "14",
+    "previous": [{ "stepId": 13 }],
+    "data": {
+      "analytics": [
+        { "label": "GLNConverter", "color": "Green", "value": "NE POSTOJI invoice.Delivery[0].DeliveryParty.EndpointID.Value", "isValid": true }
+      ]
+    },
+    "final": true
+  }
+]
