@@ -1,6 +1,6 @@
 export interface ICampaign {
   id: string;
-  subid: string;
+  subId: string;
   name: string;
   contentName: string;
   phase: string;
