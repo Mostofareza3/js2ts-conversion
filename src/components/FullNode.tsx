@@ -1,62 +1,54 @@
-import { Handle }  from 'react-flow-renderer';
-import {
-  Typography,
-  Box,
-  TableContainer,
-  Table,
-  TableBody,
-  TableRow,
-  TableCell,
-  Grid,
-} from '@material-ui/core';
+import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@material-ui/core";
+import { Handle, Position } from "react-flow-renderer";
 
-import ProgressIcon from './ProgressIcon';
+import React from "react";
 
-const getIcon = (node) => {
+const getIcon = (node: any) => {
   switch (node.type) {
-    case 'email-1to1':
-      return '&#xf658;';
-    case 'automated-email':
-      return '&#xf674;';
-    case 'sms':
-      return '&#xf7cd;';
-    case 'survey':
-      return '&#xf681;';
-    case 'call':
-      return '&#xf0f0;';
-    case 'event':
-      return '&#xf073;';
-    default: break;
-  };
-}
+    case "email-1to1":
+      return "&#xf658;";
+    case "automated-email":
+      return "&#xf674;";
+    case "sms":
+      return "&#xf7cd;";
+    case "survey":
+      return "&#xf681;";
+    case "call":
+      return "&#xf0f0;";
+    case "event":
+      return "&#xf073;";
+    default:
+      break;
+  }
+};
 
-const FullNode = ({ data: nodeData }) => {
+const FullNode = ({ data: nodeData }: { data: any }) => {
   const stepIcon = getIcon(nodeData);
   const notReachedValue = nodeData.data.potentialTarget - nodeData.data.target;
-  const formatDecimal = (value) => +parseFloat(value).toFixed(2);
+  const formatDecimal = (value: any) => +parseFloat(value).toFixed(2);
   return (
     <>
       <div className="node-container">
-        <div className={`node-status node-status-${nodeData.phase.toLowerCase()}`}>
-          { nodeData.phase }
-        </div>
-        { nodeData.previous.length > 0 && (
+        <div className={`node-status node-status-${nodeData.phase.toLowerCase()}`}>{nodeData.phase}</div>
+        {nodeData.previous.length > 0 && (
           <Handle
             type="target"
-            position="left"
+            position={Position.Left}
             style={{
-              border: '1px solid rgb(152,152,152)',
-              backgroundColor: 'white',
+              border: "1px solid rgb(152,152,152)",
+              backgroundColor: "white",
             }}
           />
         )}
-        <div style={{
-            width: '100%',
+        <div
+          style={{
+            width: "100%",
             marginTop: 7,
             display: "flex",
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
           {/* <Box flexGrow={1}>
             <ProgressIcon
               values={nodeData.data.analytics}
@@ -65,13 +57,11 @@ const FullNode = ({ data: nodeData }) => {
             />
           </Box> */}
           <div style={{ marginLeft: 10, marginRight: 10, flexGrow: 3 }}>
-            <Typography style={{ fontSize: '12px', color: "#666666" }}>
-              {nodeData.name}
-            </Typography>
-            { !!nodeData.contentName && (
-              <Typography style={{ fontSize: '12px' }} title={nodeData.contentName}>
+            <Typography style={{ fontSize: "12px", color: "#666666" }}>{nodeData.name}</Typography>
+            {!!nodeData.contentName && (
+              <Typography style={{ fontSize: "12px" }} title={nodeData.contentName}>
                 {/* { nodeData.contentName.length > 45 ?  nodeData.contentName + '...' : nodeData.contentName } */}
-                { nodeData.contentName}
+                {nodeData.contentName}
               </Typography>
             )}
             {/* <Box mt={1} mb={1}>
@@ -121,20 +111,22 @@ const FullNode = ({ data: nodeData }) => {
             </Grid> */}
           </div>
         </div>
-        <Box style={{ width: '98%', padding: 3}}>
-          <TableContainer style={{ width: '100%', marginTop: 10 }}>
+        <Box style={{ width: "98%", padding: 3 }}>
+          <TableContainer style={{ width: "100%", marginTop: 10 }}>
             <Table size="small">
-              <TableBody >
-                {  nodeData.data.analytics.map(({ value, label, color }, index) => (
+              <TableBody>
+                {nodeData.data.analytics.map(({ value, label, color }: any, index: number) => (
                   <TableRow key={index}>
-                    <TableCell style={{ padding: 0}}>
-                      <div style={{
-                        border: `5px solid ${color}`,
-                        borderRadius: 5
-                      }}/>
+                    <TableCell style={{ padding: 0 }}>
+                      <div
+                        style={{
+                          border: `5px solid ${color}`,
+                          borderRadius: 5,
+                        }}
+                      />
                     </TableCell>
-                    <TableCell style={{ fontSize: '10px', whiteSpace: 'normal', wordBreak: 'break-all'}}>{label}</TableCell>
-                    <TableCell style={{ fontSize: '10px', textAlign: 'right', whiteSpace: 'normal', wordBreak: 'break-all'}}>{value}</TableCell>
+                    <TableCell style={{ fontSize: "10px", whiteSpace: "normal", wordBreak: "break-all" }}>{label}</TableCell>
+                    <TableCell style={{ fontSize: "10px", textAlign: "right", whiteSpace: "normal", wordBreak: "break-all" }}>{value}</TableCell>
                     {/* <TableCell style={{ fontSize: '10px', textAlign: 'right'}}>{formatDecimal(value / nodeData.data.potentialTarget * 100)} %</TableCell> */}
                   </TableRow>
                 ))}
@@ -153,13 +145,13 @@ const FullNode = ({ data: nodeData }) => {
             </Table>
           </TableContainer>
         </Box>
-        { nodeData.final !== true && (
+        {nodeData.final !== true && (
           <Handle
             type="source"
-            position="right"
-            style={{ 
-              border: '1px solid rgb(152,152,152)',
-              backgroundColor: 'white',
+            position={Position.Right}
+            style={{
+              border: "1px solid rgb(152,152,152)",
+              backgroundColor: "white",
             }}
           />
         )}
