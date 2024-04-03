@@ -1,7 +1,6 @@
 import dagre from "dagre";
-import { ICampaign } from "./types/campaign.type";
 
-const generateFlow = (width: number, height: number, data: ICampaign[]) => {
+const generateFlow = (width: number, height: number, data: any[]) => {
   const flow = new dagre.graphlib.Graph();
   flow.setGraph({
     rankdir: "LR",
@@ -18,7 +17,7 @@ const generateFlow = (width: number, height: number, data: ICampaign[]) => {
 
   // Set edges
   data.forEach(({ id, previous }) => {
-    previous.forEach(({ stepId: previousId }) => {
+    previous.forEach(({ stepId: previousId }: { stepId: string }) => {
       flow.setEdge(previousId, id);
     });
   });
