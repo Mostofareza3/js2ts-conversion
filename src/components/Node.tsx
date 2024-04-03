@@ -1,6 +1,7 @@
 import { Handle, Position } from "react-flow-renderer";
 
 import React from "react";
+import { ICampaign } from "../types/Campaign";
 
 const getIcon = (node: any) => {
   switch (node.type) {
@@ -21,7 +22,7 @@ const getIcon = (node: any) => {
   }
 };
 
-const Node = ({ data: nodeData }: { data: any }) => {
+const Node: React.FC<{ data: ICampaign }> = ({ data: nodeData }) => {
   const stepIcon = getIcon(nodeData);
   return (
     <>

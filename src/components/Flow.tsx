@@ -2,25 +2,29 @@ import { useMemo, useState } from "react";
 import ReactFlow from "react-flow-renderer";
 
 import React from "react";
+import { ICampaign, INode } from "../types/Campaign";
 import { generateFlow } from "../utils";
 import FullNode from "./FullNode";
 import Node from "./Node";
 import Popover from "./Popover";
 
-const Flow = ({ mode, steps }: { mode: string; steps: any[] }) => {
-  const [stepDetails, setStepDetails] = useState<any>(null);
+const Flow: React.FC<{ mode: string; steps: ICampaign[] }> = ({ mode, steps }) => {
+  const [stepDetails, setStepDetails] = useState<{
+    evt: Element | null;
+    node: INode;
+  } | null>(null);
 
   const nodeTypes: any = {
     basic: mode === "fullscreen" ? FullNode : Node,
   };
 
-  const elements: any = useMemo(() => {
+  const elements = useMemo(() => {
     const width = mode === "profile" ? 250 : 400;
     const height = mode === "profile" ? 140 : 390;
     const flow = generateFlow(width, height, steps);
     const forConcat: any = steps
       .map(({ id, previous }) =>
-        previous.map(({ stepId: previousId }: { stepId: string }) => ({
+        previous.map(({ stepId: previousId }: { stepId: number }) => ({
           id: `${mode}-${id}-${previousId}`,
           source: `${mode}-${previousId}`,
           target: `${mode}-${id}`,

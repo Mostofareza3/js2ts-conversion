@@ -2,6 +2,7 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography 
 import { Handle, Position } from "react-flow-renderer";
 
 import React from "react";
+import { ICampaign } from "../types/Campaign";
 
 const getIcon = (node: any) => {
   switch (node.type) {
@@ -22,7 +23,7 @@ const getIcon = (node: any) => {
   }
 };
 
-const FullNode = ({ data: nodeData }: { data: any }) => {
+const FullNode: React.FC<{ data: ICampaign | any }> = ({ data: nodeData }) => {
   const stepIcon = getIcon(nodeData);
   const notReachedValue = nodeData.data.potentialTarget - nodeData.data.target;
   const formatDecimal = (value: any) => +parseFloat(value).toFixed(2);

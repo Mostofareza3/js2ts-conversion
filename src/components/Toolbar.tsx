@@ -1,6 +1,6 @@
 import React from "react";
 
-const Toolbar = ({ currentMode, changeMode }: { currentMode: string; changeMode: (mode: string) => void }) => {
+const Toolbar: React.FC<{ currentMode: string; changeMode: (mode: string) => void }> = ({ currentMode, changeMode }) => {
   return (
     <div className="toolbar">
       {currentMode === "profile" && (

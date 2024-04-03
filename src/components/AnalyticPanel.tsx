@@ -1,6 +1,6 @@
 import React from "react";
 
-const AnalyticPanel = ({ title, children }: { title: string; children: React.ReactNode }) => {
+const AnalyticPanel: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => {
   return (
     <div
       style={{

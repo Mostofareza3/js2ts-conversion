@@ -1,8 +1,8 @@
 import React from "react";
 
-const ProgressIcon = ({ total, values, icon }: { total: number; values: any; icon: string }) => {
+const ProgressIcon: React.FC<{ total: number; values: any[]; icon: string }> = ({ total, values, icon }) => {
   const percentages = values.reduce(
-    (acc: any, { value, color, label }: any) => {
+    (acc, { value, color, label }) => {
       const pct = (value / total) * 100;
       acc.values.push({
         value: pct,
