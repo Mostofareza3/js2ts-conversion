@@ -6,7 +6,7 @@ import FullScreen from "./FullScreen";
 import steps from "./campaign.json";
 import Toolbar from "./components/Toolbar";
 import "./styles.css";
-const ReactFlowProvider = RFP as any;
+const ReactFlowProvider: any = RFP;
 
 const App = () => {
   const [mode, setMode] = useState<string>("fullscreen");
@@ -14,8 +14,10 @@ const App = () => {
   return (
     <ReactFlowProvider>
       <Toolbar currentMode={mode} changeMode={setMode} />
-      {mode === "profile" && <CampaignProfile steps={steps as any} />}
-      {mode === "fullscreen" && <FullScreen steps={steps as any} />}
+      <div>
+        {mode === "profile" ? <CampaignProfile steps={steps} /> : null}
+        {mode === "fullscreen" ? <FullScreen steps={steps} /> : null}
+      </div>
     </ReactFlowProvider>
   );
 };

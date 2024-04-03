@@ -9,20 +9,44 @@ import Node from "./Node";
 import Popover from "./Popover";
 
 const Flow = ({ mode, steps }: { mode: string; steps: ICampaign[] }) => {
-  const [stepDetails, setStepDetails] = useState<{
-    evt: any;
-    node: any;
-  }>(null as any);
+  const [stepDetails, setStepDetails] = useState<any>(null);
 
-  const nodeTypes = {
+  const nodeTypes: any = {
     basic: mode === "fullscreen" ? FullNode : Node,
   };
 
-  const elements = useMemo(() => {
+  const elements: any = useMemo(() => {
     const width = mode === "profile" ? 250 : 400;
     const height = mode === "profile" ? 140 : 390;
     const flow = generateFlow(width, height, steps);
-    const elements = flow
+    const forConcat: any = steps
+      .map(({ id, previous }) =>
+        previous.map(({ stepId: previousId }) => ({
+          id: `${mode}-${id}-${previousId}`,
+          source: `${mode}-${previousId}`,
+          target: `${mode}-${id}`,
+          arrowHeadType: "none",
+          style: {
+            strokeWidth: 2,
+            stroke: "rgb(152,152,152)",
+          },
+          type: "smoothstep",
+          // label: `${label ? label + ': ' : ''}${count}`,
+          labelShowBg: false,
+          labelBgPadding: [10, 5],
+          labelBgBorderRadius: 4,
+          labelStyle: {
+            fontFamily: "Roboto, sans-serif",
+            fontSize: 15,
+          },
+          labelBgStyle: {
+            fill: "rgb(217,217,217)",
+            stroke: "rgb(152,152,152)",
+          },
+        }))
+      )
+      .flat();
+    const elements: any = flow
       .map((node) => ({
         id: `${mode}-${node?.x}`,
         type: "basic",
@@ -32,35 +56,7 @@ const Flow = ({ mode, steps }: { mode: string; steps: ICampaign[] }) => {
         targetPosition: "left",
         className: mode === "profile" ? "node" : "fullnode",
       }))
-      .concat(
-        steps
-          .map(({ id, previous }) =>
-            previous.map(({ stepId: previousId }) => ({
-              id: `${mode}-${id}-${previousId}`,
-              source: `${mode}-${previousId}`,
-              target: `${mode}-${id}`,
-              arrowHeadType: "none",
-              style: {
-                strokeWidth: 2,
-                stroke: "rgb(152,152,152)",
-              },
-              type: "smoothstep",
-              // label: `${label ? label + ': ' : ''}${count}`,
-              labelShowBg: false,
-              labelBgPadding: [10, 5],
-              labelBgBorderRadius: 4,
-              labelStyle: {
-                fontFamily: "Roboto, sans-serif",
-                fontSize: 15,
-              },
-              labelBgStyle: {
-                fill: "rgb(217,217,217)",
-                stroke: "rgb(152,152,152)",
-              },
-            }))
-          )
-          .flat() as any
-      );
+      .concat(forConcat);
     return elements;
   }, [mode, steps]);
 
@@ -84,13 +80,13 @@ const Flow = ({ mode, steps }: { mode: string; steps: ICampaign[] }) => {
         zoomOnPinch={mode === "fullscreen"}
         zoomOnScroll={mode === "fullscreen"}
         zoomOnDoubleClick={mode === "fullscreen"}
-        nodeTypes={nodeTypes as any}
-        elements={elements as any}
+        nodeTypes={nodeTypes}
+        elements={elements}
       />
       <Popover
         anchor={stepDetails?.evt || null}
         onClose={() => {
-          setStepDetails(null as any);
+          setStepDetails(null);
         }}
         nodeData={stepDetails?.node || null}
       />
