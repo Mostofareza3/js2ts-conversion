@@ -6,9 +6,13 @@ import { generateFlow } from "../utils";
 import FullNode from "./FullNode";
 import Node from "./Node";
 import Popover from "./Popover";
+import { ICampaign, INode } from "../types/Campaign";
 
-const Flow = ({ mode, steps }: { mode: string; steps: any[] }) => {
-  const [stepDetails, setStepDetails] = useState<any>(null);
+const Flow = ({ mode, steps }: { mode: string; steps: ICampaign[] }) => {
+  const [stepDetails, setStepDetails] = useState<{
+    evt: Element | null;
+    node: INode;
+  } | null>(null);
 
   const nodeTypes: any = {
     basic: mode === "fullscreen" ? FullNode : Node,
@@ -18,9 +22,9 @@ const Flow = ({ mode, steps }: { mode: string; steps: any[] }) => {
     const width = mode === "profile" ? 250 : 400;
     const height = mode === "profile" ? 140 : 390;
     const flow = generateFlow(width, height, steps);
-    const forConcat: any = steps
+    const forConcat : any = steps
       .map(({ id, previous }) =>
-        previous.map(({ stepId: previousId }: { stepId: string }) => ({
+        previous.map(({ stepId: previousId }: { stepId: number }) => ({
           id: `${mode}-${id}-${previousId}`,
           source: `${mode}-${previousId}`,
           target: `${mode}-${id}`,
