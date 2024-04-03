@@ -18,7 +18,7 @@ const Flow = ({ mode, steps }: { mode: string; steps: ICampaign[] }) => {
     basic: mode === "fullscreen" ? FullNode : Node,
   };
 
-  const elements: any = useMemo(() => {
+  const elements = useMemo(() => {
     const width = mode === "profile" ? 250 : 400;
     const height = mode === "profile" ? 140 : 390;
     const flow = generateFlow(width, height, steps);
