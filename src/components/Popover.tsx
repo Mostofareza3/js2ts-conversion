@@ -29,7 +29,7 @@ const Popover: React.FC<{ anchor: Element | null; onClose: () => void; nodeData:
   if (!nodeData) return <div></div>;
   const { data } = nodeData;
 
-  const formatDecimal = (value: any) => +parseFloat(value).toFixed(2);
+  const formatDecimal = (value: string) => +parseFloat(value).toFixed(2);
 
   return (
     <MuiPopover

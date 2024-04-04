@@ -1,4 +1,12 @@
-import { Box, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@material-ui/core";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Typography,
+} from "@material-ui/core";
 import { Handle, Position } from "react-flow-renderer";
 
 import React from "react";
@@ -26,11 +34,15 @@ const getIcon = (node: any) => {
 const FullNode: React.FC<{ data: ICampaign | any }> = ({ data: nodeData }) => {
   const stepIcon = getIcon(nodeData);
   const notReachedValue = nodeData.data.potentialTarget - nodeData.data.target;
-  const formatDecimal = (value: any) => +parseFloat(value).toFixed(2);
+  const formatDecimal = (value: string) => +parseFloat(value).toFixed(2);
   return (
     <>
       <div className="node-container">
-        <div className={`node-status node-status-${nodeData.phase.toLowerCase()}`}>{nodeData.phase}</div>
+        <div
+          className={`node-status node-status-${nodeData.phase.toLowerCase()}`}
+        >
+          {nodeData.phase}
+        </div>
         {nodeData.previous.length > 0 && (
           <Handle
             type="target"
@@ -58,9 +70,14 @@ const FullNode: React.FC<{ data: ICampaign | any }> = ({ data: nodeData }) => {
             />
           </Box> */}
           <div style={{ marginLeft: 10, marginRight: 10, flexGrow: 3 }}>
-            <Typography style={{ fontSize: "12px", color: "#666666" }}>{nodeData.name}</Typography>
+            <Typography style={{ fontSize: "12px", color: "#666666" }}>
+              {nodeData.name}
+            </Typography>
             {!!nodeData.contentName && (
-              <Typography style={{ fontSize: "12px" }} title={nodeData.contentName}>
+              <Typography
+                style={{ fontSize: "12px" }}
+                title={nodeData.contentName}
+              >
                 {/* { nodeData.contentName.length > 45 ?  nodeData.contentName + '...' : nodeData.contentName } */}
                 {nodeData.contentName}
               </Typography>
@@ -116,21 +133,40 @@ const FullNode: React.FC<{ data: ICampaign | any }> = ({ data: nodeData }) => {
           <TableContainer style={{ width: "100%", marginTop: 10 }}>
             <Table size="small">
               <TableBody>
-                {nodeData.data.analytics.map(({ value, label, color }: any, index: number) => (
-                  <TableRow key={index}>
-                    <TableCell style={{ padding: 0 }}>
-                      <div
+                {nodeData.data.analytics.map(
+                  ({ value, label, color }: any, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell style={{ padding: 0 }}>
+                        <div
+                          style={{
+                            border: `5px solid ${color}`,
+                            borderRadius: 5,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
                         style={{
-                          border: `5px solid ${color}`,
-                          borderRadius: 5,
+                          fontSize: "10px",
+                          whiteSpace: "normal",
+                          wordBreak: "break-all",
                         }}
-                      />
-                    </TableCell>
-                    <TableCell style={{ fontSize: "10px", whiteSpace: "normal", wordBreak: "break-all" }}>{label}</TableCell>
-                    <TableCell style={{ fontSize: "10px", textAlign: "right", whiteSpace: "normal", wordBreak: "break-all" }}>{value}</TableCell>
-                    {/* <TableCell style={{ fontSize: '10px', textAlign: 'right'}}>{formatDecimal(value / nodeData.data.potentialTarget * 100)} %</TableCell> */}
-                  </TableRow>
-                ))}
+                      >
+                        {label}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "10px",
+                          textAlign: "right",
+                          whiteSpace: "normal",
+                          wordBreak: "break-all",
+                        }}
+                      >
+                        {value}
+                      </TableCell>
+                      {/* <TableCell style={{ fontSize: '10px', textAlign: 'right'}}>{formatDecimal(value / nodeData.data.potentialTarget * 100)} %</TableCell> */}
+                    </TableRow>
+                  )
+                )}
                 {/* <TableRow>
                   <TableCell style={{ padding: 0}}>
                     <div style={{
