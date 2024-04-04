@@ -25,7 +25,7 @@ const Flow = ({ mode, steps }: { mode: string; steps: ICampaign[] }) => {
     const forConcat : any = steps
       .map(({ id, previous }) =>
         previous.map(({ stepId: previousId }: { stepId: number }) => ({
-          id: `${mode}-${id}-${previousId}`,
+          id: `${mode}-${id}-${previousId}}`,
           source: `${mode}-${previousId}`,
           target: `${mode}-${id}`,
           arrowHeadType: "none",
@@ -50,8 +50,8 @@ const Flow = ({ mode, steps }: { mode: string; steps: ICampaign[] }) => {
       )
       .flat();
     const elements: any = flow
-      .map((node) => ({
-        id: `${mode}-${node?.x}`,
+      .map((node : any) => ({
+        id: `${mode}-${node?.id}`,
         type: "basic",
         data: { ...node },
         position: { x: node.x, y: node.y },
